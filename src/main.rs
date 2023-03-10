@@ -7,25 +7,34 @@ fn main() {
 }
 
 fn chapter_one() {
+    use crate::chapters::ch1::*;
     println!("{:-^5} Chapter 1 {:-^5}", "-", "-");
-    chapters::ch1::hello_world();
-    chapters::ch1::comments();
-    chapters::ch1::formatted_print();
-    chapters::ch1::debug();
-    chapters::ch1::debug_pretty();
-    chapters::ch1::display_122_1();
-    chapters::ch1::display_122_2();
-    chapters::ch1::testcase_list();
-    chapters::ch1::foratting_guide();
+    hello_world();
+    comments();
+    formatted_print();
+    debug();
+    debug_pretty();
+    display_122_1();
+    display_122_2();
+    testcase_list();
+    foratting_guide();
 }
 
 fn chapter_two() {
+    use crate::chapters::ch2::*;
     println!("{:-^5} Chapter 2 {:-^5}", "-", "-");
-    chapters::ch2::literals_and_operators();
-    chapters::ch2::tuples_lesson();
-    chapters::ch2::arrays_and_slices();
+    literals_and_operators();
+    tuples_lesson();
+    arrays_and_slices();
 }
 
 fn chapter_three() {
-    
+    use crate::chapters::ch3::*;
+    println!("{:-^5} Chapter 3 {:-^5}", "-", "-");
+    structures();
+    enum_nom_nom();
+    enums_use();
+    c_like();
+    testcase_linked_list();
+    constants();
 }
