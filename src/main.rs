@@ -46,4 +46,6 @@ fn chapter_four() {
 
     mutability();
     scope_and_shadow();
+    declare_first();
+    freezing();
 }

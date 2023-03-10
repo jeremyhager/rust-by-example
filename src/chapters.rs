@@ -650,4 +650,39 @@ pub mod ch4 {
         println!("shadowed in outer block: {}", shadow_and_bind);
     }
 
+    pub fn declare_first() {
+        // Generally considered seldom used
+        let a_binding;
+
+        {
+            let x = 2;
+
+            a_binding = x * x;
+
+        }
+
+        println!("a binding: {}", a_binding);
+
+        let another_binding;
+
+        // println!("another binding: {}", another_binding);
+        // FIXME ^ -- doesn't work
+        
+        another_binding = 1;
+        println!("another binding: {}", another_binding);
+    }
+
+    pub fn freezing() {
+        let mut _mutable_integer = 7i32;
+        {
+            let _mutable_integer = _mutable_integer;
+            
+            // _mutable_integer = 50;
+            // FIXME ^ -- it's frozen, can't mut
+
+        }
+
+        _mutable_integer = 3;
+    }
+
 }
