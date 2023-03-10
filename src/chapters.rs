@@ -605,3 +605,49 @@ pub mod ch3 {
     }
 
 }
+
+pub mod ch4 {
+    pub fn mutability() {
+        let _immutable_binding = 1;
+        let mut mutable_binding = 1;
+
+        println!("Before mutation: {}", mutable_binding);
+
+        mutable_binding += 1;
+        println!("After mutation: {}", mutable_binding);
+
+        //_immutable_binding += 1;
+        // Fix ^
+    }
+
+    pub fn scope_and_shadow() {
+        let long_live_the_binding = 1;
+
+        {
+            let short_lived_binding =2;
+
+            println!("inner short: {}", short_lived_binding);
+        }
+
+        // println!("outer short: {}", short_lived_binding);
+        // FIX ^
+        
+        println!("outer long: {}", long_live_the_binding);
+
+        let shadow_and_bind = 1;
+
+        {
+            println!("before being shadowed: {}", shadow_and_bind);
+
+            let shadow_and_bind = "abc";
+
+            println!("shadowed inner block: {}", shadow_and_bind);
+        }
+
+        println!("outside inner block: {}", shadow_and_bind);
+
+        let shadow_and_bind = 2;
+        println!("shadowed in outer block: {}", shadow_and_bind);
+    }
+
+}

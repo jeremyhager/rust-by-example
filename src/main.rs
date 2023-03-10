@@ -4,6 +4,7 @@ fn main() {
     chapter_one();
     chapter_two();
     chapter_three();
+    chapter_four();
 }
 
 fn chapter_one() {
@@ -37,4 +38,12 @@ fn chapter_three() {
     c_like();
     testcase_linked_list();
     constants();
+}
+
+fn chapter_four() {
+    use crate::chapters::ch4::*;
+    println!("{:-^5} Chapter 3 {:-^5}", "-", "-");
+
+    mutability();
+    scope_and_shadow();
 }
