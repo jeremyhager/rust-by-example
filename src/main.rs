@@ -5,11 +5,17 @@ fn main() {
     chapter_two();
     chapter_three();
     chapter_four();
+    chapter_five();
+}
+
+fn chapter_marker(chapter_name: String) {
+    println!("{:-^5} {} {:-^5}", "-",chapter_name, "-");
 }
 
 fn chapter_one() {
     use crate::chapters::ch1::*;
-    println!("{:-^5} Chapter 1 {:-^5}", "-", "-");
+    chapter_marker(String::from("Chapter 1"));
+
     hello_world();
     comments();
     formatted_print();
@@ -23,7 +29,8 @@ fn chapter_one() {
 
 fn chapter_two() {
     use crate::chapters::ch2::*;
-    println!("{:-^5} Chapter 2 {:-^5}", "-", "-");
+    chapter_marker(String::from("Chapter 2"));
+
     literals_and_operators();
     tuples_lesson();
     arrays_and_slices();
@@ -31,7 +38,8 @@ fn chapter_two() {
 
 fn chapter_three() {
     use crate::chapters::ch3::*;
-    println!("{:-^5} Chapter 3 {:-^5}", "-", "-");
+    chapter_marker(String::from("Chapter 3"));
+
     structures();
     enum_nom_nom();
     enums_use();
@@ -42,10 +50,20 @@ fn chapter_three() {
 
 fn chapter_four() {
     use crate::chapters::ch4::*;
-    println!("{:-^5} Chapter 3 {:-^5}", "-", "-");
+    chapter_marker(String::from("Chapter 4"));
 
     mutability();
     scope_and_shadow();
     declare_first();
     freezing();
+}
+
+fn chapter_five() {
+    use crate::chapters::ch5::*;
+    chapter_marker(String::from("Chapter 5"));
+
+    casting();
+    literals();
+    inference();
+    aliasing();
 }
