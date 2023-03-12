@@ -6,6 +6,7 @@ fn main() {
     chapter_three();
     chapter_four();
     chapter_five();
+    chapter_six();
 }
 
 fn chapter_marker(chapter_name: String) {
@@ -66,4 +67,15 @@ fn chapter_five() {
     literals();
     inference();
     aliasing();
+}
+
+fn chapter_six() {
+    use crate::chapters::ch6::*;
+    chapter_marker(String::from("Chapter 6"));
+    
+    from_trait();
+    into_trait();
+    try_from_try_into();
+    converting_to_string();
+    parsing_a_string();
 }
