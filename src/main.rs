@@ -7,6 +7,7 @@ fn main() {
     chapter_four();
     chapter_five();
     chapter_six();
+    chater_seven();
 }
 
 fn chapter_marker(chapter_name: String) {
@@ -78,4 +79,11 @@ fn chapter_six() {
     try_from_try_into();
     converting_to_string();
     parsing_a_string();
+}
+
+fn chater_seven() {
+    use crate::chapters::ch7::*;
+    chapter_marker(String::from("Chapter 7"));
+
+    expressions();
 }
