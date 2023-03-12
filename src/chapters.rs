@@ -605,3 +605,275 @@ pub mod ch3 {
     }
 
 }
+
+pub mod ch4 {
+    pub fn mutability() {
+        let _immutable_binding = 1;
+        let mut mutable_binding = 1;
+
+        println!("Before mutation: {}", mutable_binding);
+
+        mutable_binding += 1;
+        println!("After mutation: {}", mutable_binding);
+
+        //_immutable_binding += 1;
+        // Fix ^
+    }
+
+    pub fn scope_and_shadow() {
+        let long_live_the_binding = 1;
+
+        {
+            let short_lived_binding =2;
+
+            println!("inner short: {}", short_lived_binding);
+        }
+
+        // println!("outer short: {}", short_lived_binding);
+        // FIX ^
+        
+        println!("outer long: {}", long_live_the_binding);
+
+        let shadow_and_bind = 1;
+
+        {
+            println!("before being shadowed: {}", shadow_and_bind);
+
+            let shadow_and_bind = "abc";
+
+            println!("shadowed inner block: {}", shadow_and_bind);
+        }
+
+        println!("outside inner block: {}", shadow_and_bind);
+
+        let shadow_and_bind = 2;
+        println!("shadowed in outer block: {}", shadow_and_bind);
+    }
+
+    pub fn declare_first() {
+        // Generally considered seldom used
+        let a_binding;
+
+        {
+            let x = 2;
+
+            a_binding = x * x;
+
+        }
+
+        println!("a binding: {}", a_binding);
+
+        let another_binding;
+
+        // println!("another binding: {}", another_binding);
+        // FIXME ^ -- doesn't work
+        
+        another_binding = 1;
+        println!("another binding: {}", another_binding);
+    }
+
+    pub fn freezing() {
+        let mut _mutable_integer = 7i32;
+        {
+            let _mutable_integer = _mutable_integer;
+            
+            // _mutable_integer = 50;
+            // FIXME ^ -- it's frozen, can't mut
+
+        }
+
+        _mutable_integer = 3;
+    }
+
+}
+
+pub mod ch5 {
+
+    pub fn casting() {
+        #![allow(overflowing_literals)]
+
+        let decimal = 65.4321_f32;
+        // let integer: u8 = decimal;
+        // FIXME ^ you can't do this.
+
+        let integer = decimal as u8;
+        let character = integer as char;
+
+        // let character = decimal as char;
+        // FIXME ^ float can't directly convert to char
+
+        println!("Casting: {} -> {} -> {}", decimal, integer, character);
+
+        println!("1000 as u16 is: {}", 1000 as u16);
+        println!("Did you know? 1000 as u8 is: {}", 1000 as u8);
+        println!("Overflowing is fun! Here's -1i8 as u8 is: {}", (-1i8) as u8);
+
+        println!("1000 mod 256 is: {}", 1000 % 256);
+
+        println!("128 as a i16 is: {}", 128 as i16);
+        println!("128 as a i8 is: {}", 128 as i8);
+
+        println!("1000 as a u8 is: {}", 1000 as u8);
+        println!("232 as a i8 is: {}", 232 as i8);
+
+        println!("300.0 as u8 is: {}!", 300.0_f32 as u8);
+        println!("-100.0 as u8 is: {}", -100.0_f32 as u8);
+        println!("nan as u8 is: {}", f32::NAN as u8);
+
+        unsafe {
+            println!("Those of you with weak constitutions may want to leave...");
+            println!("Too late!!");
+
+            println!("300.0 as u8 is: {}", 300.0_f32.to_int_unchecked::<u8>());
+            println!("-100.0 as u8 is: {}", (-100.0_f32).to_int_unchecked::<u8>());
+            println!("nan as u8 is: {}", f32::NAN.to_int_unchecked::<u8>());
+        }
+
+    }
+
+    pub fn literals() {
+        let x = 1u8;
+        let y = 2u32;
+        let z = 3f32;
+
+        let i = 1;
+        let f = 1.0;
+
+        println!("size of `x` in bytes: {}", std::mem::size_of_val(&x));
+        println!("size of `y` in bytes: {}", std::mem::size_of_val(&y));
+        println!("size of `z` in bytes: {}", std::mem::size_of_val(&z));
+        println!("size of `i` in bytes: {}", std::mem::size_of_val(&i));
+        println!("size of `f` in bytes: {}", std::mem::size_of_val(&f));
+    }
+
+    pub fn inference() {
+        let elem = 5u8;
+        
+        let mut vec = Vec::new();
+
+        vec.push(elem);
+
+        //- TODO ^ try commenting this out
+        // need to define T in Vec
+
+        println!("{:?}", vec);
+    }
+
+    pub fn aliasing() {
+        type NanoSecond = u64;
+        type Inch = u64;
+        type U64 = u64;
+
+        let nanoseconds: NanoSecond = 5 as U64;
+        let inches: Inch = 2 as U64;
+
+        println!("{} nanoseconds + {} inches = {} units?",
+            nanoseconds,
+            inches,
+            nanoseconds + inches);
+    }
+
+}
+
+pub mod ch6 {
+    // use std::fmt::write;
+
+    pub fn from_trait() {
+        #![allow(dead_code)]
+        // use std::convert::From;
+        // ^ uneeded?
+
+        let my_str = "hello";
+        let _my_string = String::from(my_str);
+
+        #[derive(Debug)]
+        struct Number {
+            value: i32,
+        }
+
+        impl From<i32> for Number {
+            fn from(item: i32) -> Self {
+                Number { value: item }
+            }
+        }
+
+        let num = Number::from(30);
+        println!("My number is {:?}", num);
+
+    }
+
+    pub fn into_trait() {
+        #![allow(dead_code)]
+        #[derive(Debug)]
+        struct Number {
+            value: i32,
+        }
+
+        impl From<i32> for Number {
+            fn from(item: i32) -> Self {
+                Number { value: item }
+            }
+        }
+
+        let int = 5;
+
+        let num: Number = int.into();
+        // removing type annotation makes compiler unhappy
+        println!("My number is {:?}", num);
+    }
+
+    pub fn try_from_try_into() {
+        use std::convert::TryFrom;
+        use std::convert::TryInto;
+
+        #[derive(Debug, PartialEq)]
+        struct EvenNumber(i32);
+
+        impl TryFrom<i32> for EvenNumber {
+            type Error = ();
+
+            fn try_from(value: i32) -> Result<Self, Self::Error> {
+                if value % 2 == 0 {
+                    Ok(EvenNumber(value))
+                } else {
+                    Err(())
+                }
+            }
+        }
+
+        assert_eq!(EvenNumber::try_from(8), Ok(EvenNumber(8)));
+        assert_eq!(EvenNumber::try_from(5), Err(()));
+
+        let result: Result<EvenNumber, ()> = 8i32.try_into();
+        assert_eq!(result, Ok(EvenNumber(8)));
+
+        let result: Result<EvenNumber, ()> = 5i32.try_into();
+        assert_eq!(result, Err(()));
+    }
+
+    pub fn converting_to_string() {
+        use std::fmt;
+
+        struct Circle {
+            radius: i32
+        }
+
+        impl fmt::Display for Circle {
+            fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+                write!(f, "Circle of radius {}", self.radius)
+            }
+        }
+
+        let circle = Circle { radius: 6 };
+        println!("{}", circle.to_string());
+    }
+
+    pub fn parsing_a_string() {
+        let parsed: i32 = "5".parse().unwrap();
+        let turbo_parsed = "10".parse::<i32>().unwrap();
+
+        let sum = parsed + turbo_parsed;
+        println!("Sum: {:?}", sum);
+    }
+
+}
